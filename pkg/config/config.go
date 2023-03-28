@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/kelseyhightower/envconfig"
@@ -8,14 +10,14 @@ import (
 
 type config struct {
 	// Aws Credentials
-	BotAliasId     string `default:"aws"`
-	BotId          string `default:"aws"`
-	LocaleId       string `default:"aws"`
-	SessionId      string `default:"aws"`
-	AccesKeyId     string `default:"aws"`
-	SecretAccesKey string `default:"aws"`
-	SessionToken   string `default:"aws"`
-	Region         string `default:"aws"`
+	BotAliasId      string `envconfig:"BOTALIASID" default:"aws"`
+	BotId           string `envconfig:"BOTID" default:"aws"`
+	LocaleId        string `envconfig:"LOCALEID" default:"aws"`
+	SessionId       string `envconfig:"SESSIONID" default:"aws"`
+	AccessKeyId     string `envconfig:"ACCESSKEYID" default:"aws"`
+	SecretAccessKey string `envconfig:"SECRETACCESSKEY" default:"aws"`
+	SessionToken    string `envconfig:"SESSIONTOKEN" default:""`
+	Region          string `envconfig:"REGION" default:"us-east-1"`
 	// Server config
 	Host            string        `default:"0.0.0.0"`
 	Port            uint          `default:"8080"`
@@ -25,9 +27,15 @@ type config struct {
 var Cfg config
 
 func LoadConfig() error {
-	err := envconfig.Process("AWS", &Cfg)
+	err := envconfig.Process("aws", &Cfg)
 	if err != nil {
 		return err
 	}
+	format := "BotAliasID: %s\nBotId: %s\nLocaleId: %s\nSessionId: %s\nAccesKeyId: %s\nSecretAccesKey: %s\nSessionToken: %s\nRegion: %s\n"
+	_, err = fmt.Printf(format, Cfg.BotAliasId, Cfg.BotId, Cfg.LocaleId, Cfg.SessionId, Cfg.AccessKeyId, Cfg.SecretAccessKey, Cfg.SessionToken, Cfg.Region)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	return nil
 }
