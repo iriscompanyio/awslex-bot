@@ -1,0 +1,11 @@
+version: '3.8'
+
+networks:
+  nginx-proxy:
+    name: ${NETWORK_NAME}
+    external: true
+
+services:
+  awslex-bot:
+    networks:
+      - nginx-proxy

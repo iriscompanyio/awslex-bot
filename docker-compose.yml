@@ -1,0 +1,17 @@
+version: '3.8'
+
+networks:
+  awslex-bot:
+
+services:
+  awslex-bot:
+    container_name: awslex-bot
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - 8090:8080
+    networks:
+      - awslex-bot
