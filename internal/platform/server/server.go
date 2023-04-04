@@ -63,5 +63,5 @@ func (s *Server) RunServer(ctx context.Context) error {
 }
 
 func (s *Server) registerRoutes() {
-	s.engine.GET("/bot", core.WebhookHandler())
+	s.engine.POST("/bot", core.WebhookHandler())
 }
