@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/iriscompanyio/awslex-bot/internal/core"
 )
@@ -26,6 +27,7 @@ func NewServer(ctx context.Context, host string, port uint, shutdownTimeout time
 		ShutdownTimeout: shutdownTimeout,
 	}
 	srv.registerRoutes()
+	srv.setCors()
 	return serverContext(ctx), srv
 }
 
@@ -64,4 +66,8 @@ func (s *Server) RunServer(ctx context.Context) error {
 
 func (s *Server) registerRoutes() {
 	s.engine.POST("/bot", core.WebhookHandler())
+}
+
+func (s *Server) setCors() {
+	s.engine.Use(cors.Default())
 }
