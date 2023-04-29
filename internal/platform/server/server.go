@@ -69,5 +69,12 @@ func (s *Server) registerRoutes() {
 }
 
 func (s *Server) setCors() {
-	s.engine.Use(cors.Default())
+	s.engine.Use(cors.New(cors.Config{
+		AllowAllOrigins:  true,
+		AllowMethods:     []string{"PUT", "PATCH", "POST"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 }
