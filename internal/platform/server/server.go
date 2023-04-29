@@ -72,7 +72,7 @@ func (s *Server) setCors() {
 	s.engine.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
 		AllowMethods:     []string{"PUT", "PATCH", "POST"},
-		AllowHeaders:     []string{"Origin"},
+		AllowHeaders:     []string{"Access-Control-Allow-Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
