@@ -70,9 +70,9 @@ func (s *Server) registerRoutes() {
 
 func (s *Server) setCors() {
 	s.engine.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000/, http://127.0.0.1:3000/, http://0.0.0.0:3000/"},
+		AllowOrigins:     []string{"Access-Control-Allow-Origin", "http://localhost:3000/", "http://127.0.0.1:3000/", "http://0.0.0.0:3000/"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "application/json", "text/plain; charset=utf-8"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
