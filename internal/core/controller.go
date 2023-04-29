@@ -16,8 +16,6 @@ type payload struct {
 
 func WebhookHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.Header("Access-Control-Allow-Origin", "*")
-		ctx.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
 		var message payload
 		if err := ctx.BindJSON(&message); err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
