@@ -26,8 +26,9 @@ func NewServer(ctx context.Context, host string, port uint, shutdownTimeout time
 		httpAddr:        fmt.Sprintf("%s:%d", host, port),
 		ShutdownTimeout: shutdownTimeout,
 	}
-	srv.registerRoutes()
+	middleware := middleware.Middleware{}
 	srv.engine.Use(middleware.CORSMiddleware())
+	srv.registerRoutes()
 	return serverContext(ctx), srv
 }
 
