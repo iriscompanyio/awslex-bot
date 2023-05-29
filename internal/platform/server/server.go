@@ -9,9 +9,9 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/iriscompanyio/awslex-bot/internal/core"
+	"github.com/iriscompanyio/awslex-bot/pkg/middleware"
 )
 
 type Server struct {
@@ -27,7 +27,7 @@ func NewServer(ctx context.Context, host string, port uint, shutdownTimeout time
 		ShutdownTimeout: shutdownTimeout,
 	}
 	srv.registerRoutes()
-	srv.setCors()
+	srv.engine.Use(middleware.CORSMiddleware())
 	return serverContext(ctx), srv
 }
 
@@ -66,15 +66,4 @@ func (s *Server) RunServer(ctx context.Context) error {
 
 func (s *Server) registerRoutes() {
 	s.engine.POST("/bot", core.WebhookHandler())
-}
-
-func (s *Server) setCors() {
-	s.engine.Use(cors.New(cors.Config{
-		AllowAllOrigins:  true,
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "application/json", "text/plain; charset=utf-8"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
 }
